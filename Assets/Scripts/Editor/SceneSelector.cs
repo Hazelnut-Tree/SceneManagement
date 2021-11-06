@@ -8,9 +8,10 @@ using System.Linq;
 
 public static class SceneSelector
 {
+
     [MenuItem("Scenes/Lobby")]
-    
-   static void OpenLobby()
+
+    static void OpenLobby()
     {
         Load("Lobby");
     }
@@ -22,8 +23,6 @@ public static class SceneSelector
         Load("GreenPlace");
     }
 
-  
-
     [MenuItem("Scenes/Red Place")]
 
     static void OpenRedPlace()
@@ -31,29 +30,17 @@ public static class SceneSelector
         Load("RedPlace");
     }
 
+
     static void Load(string scene)
     {
+
         EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 
         Scene xrScene = EditorSceneManager.OpenScene("Assets/Scenes/XR.unity", OpenSceneMode.Single);
+
         Scene newScene = EditorSceneManager.OpenScene("Assets/Scenes/" + scene + ".unity", OpenSceneMode.Additive);
 
-        static void PlaceXRRig(Scene xrScene, Scene newScene)
-        {
-            GameObject[] xrObjects = xrScene.GetRootGameObjects();
-            GameObject[] newSceneObjects = newScene.GetRootGameObjects();
-
-            GameObject xrRig = xrObjects.First((obj) => { return obj.CompareTag("XRRig"); });
-            GameObject xrRigOrigin = newSceneObjects.First((obj) => { return obj.CompareTag("XRRigOrigin"); });
-
-            if (xrRig && xrRigOrigin)
-            {
-                xrRig.transform.position = xrRigOrigin.transform.position;
-                xrRig.transform.rotation = xrRigOrigin.transform.rotation;
-
-            }
-        }
-
+        XRSceneTransitionManager.PlaceXRRig(xrScene, newScene);
     }
 }
-
+ 
